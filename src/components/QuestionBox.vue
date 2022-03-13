@@ -20,7 +20,10 @@
 <script>
 export default {
     props: {
-        questions: Array
+        questions: {
+            type: Array,
+            required: true
+        }
     }
 }
 </script>

@@ -5,7 +5,7 @@
     <b-container class="bv-example-row">
       <b-row>
         <b-col sm="6" offset="3">
-          <QuestionBox />
+          <QuestionBox :questions="questions" />
         </b-col>
       </b-row>
   </b-container>
@@ -37,9 +37,6 @@ export default {
       .then((jsonData) => {
         this.questions = jsonData.results
       })
-      .catch (
-        alert(error)
-      )
   }
 }
 </script>

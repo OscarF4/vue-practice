@@ -8,7 +8,7 @@
             <hr class="my-4">
 
             <p>
-            List of answers
+            {{ questions }}
             </p>
 
             <b-button variant="primary">Submit</b-button>
@@ -16,3 +16,11 @@
         </b-jumbotron>
     </div>
 </template>
+
+<script>
+export default {
+    props: {
+        questions: Array
+    }
+}
+</script>

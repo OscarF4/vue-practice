@@ -1,11 +1,11 @@
 <template>
   <div id="app">
-    <HeaderBox />
+    <HeaderBox :currentCounter="currentCounter" />
 
     <b-container class="bv-example-row">
       <b-row>
         <b-col sm="6" offset="3">
-          <QuestionBox :questions="questions" />
+          <QuestionBox :question="currentQuestion" />
         </b-col>
       </b-row>
   </b-container>
@@ -24,7 +24,9 @@ export default {
   },
   data() {
     return {
-      questions: []
+      currentCounter: 1,
+      questions: [],
+      currentQuestion: {}
     }
   },
   mounted() {
@@ -36,7 +38,13 @@ export default {
       })
       .then((jsonData) => {
         this.questions = jsonData.results
+        this.assignQuestion()
       })
+  },
+  methods: {
+    assignQuestion() {
+      this.currentQuestion = this.questions[this.currentCounter - 1];
+    }
   }
 }
 </script>
@@ -49,5 +57,8 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+.red {
+  color: red;
 }
 </style>

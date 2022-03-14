@@ -1,11 +1,12 @@
 <template>
   <div id="app">
-    <HeaderBox :currentCounter="currentCounter" />
+    <HeaderBox :currentCounter="index + 1"/>
 
     <b-container class="bv-example-row">
       <b-row>
         <b-col sm="6" offset="3">
-          <QuestionBox :question="currentQuestion" />
+          <QuestionBox v-if="questions.length"
+                       :currentQuestion="questions[index]" :next="next" />
         </b-col>
       </b-row>
   </b-container>
@@ -24,9 +25,16 @@ export default {
   },
   data() {
     return {
-      currentCounter: 1,
+      index: 0,
       questions: [],
       currentQuestion: {}
+    }
+  },
+  methods: {
+    next() {
+      if (this.index < 9) {
+      this.index++
+      }
     }
   },
   mounted() {
@@ -38,13 +46,7 @@ export default {
       })
       .then((jsonData) => {
         this.questions = jsonData.results
-        this.assignQuestion()
       })
-  },
-  methods: {
-    assignQuestion() {
-      this.currentQuestion = this.questions[this.currentCounter - 1];
-    }
   }
 }
 </script>

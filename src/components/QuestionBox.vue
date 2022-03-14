@@ -2,16 +2,16 @@
   <div>
     <b-jumbotron class="py-5">
       <template #lead>
-        {{ question.question }}
+        {{ currentQuestion.question }}
       </template>
 
       <hr class="my-4">
 
-      <div class="mb-3" v-for="option in shuffledOptions" :key="option">
-        <button class="btnx">{{ option }}</button>
+      <div class="mb-3" v-for="(answer, index) in shuffledAnswers" :key="index">
+        <button class="btnx">{{ answer }}</button>
       </div>
 
-      <button class="blue-btnx">Next</button>
+      <button @click="next" class="blue-btnx">Nexta</button>
     </b-jumbotron>
   </div>
 </template>
@@ -19,22 +19,29 @@
 <script>
 export default {
   props: {
-    question: {
+    currentQuestion: {
       type: Object,
-      required: true
+      default() {
+        return {
+          category: '',
+          type: '',
+          difficulty: '',
+          question: '',
+          correct_answer: '',
+          incorrect_answers: ''
+        }
+      }
+    },
+    next: {
+      type: Function
     }
   },
   computed: {
-    shuffledOptions() {
-      if (this.question) {
-        let incorrectAnswers = this.question.incorrect_answers
-        let correctAnswer = this.question.correct_answer
-        let allAnswers = incorrectAnswers.concat(correctAnswer)
-        return allAnswers
-      } else {
-        this.shuffledOptions()
-        return null
-      }
+    shuffledAnswers() {
+      let answers = [...this.currentQuestion.incorrect_answers]
+      let randomIndex = Math.round(Math.random() * 3)
+      answers.splice(randomIndex, 0, this.currentQuestion.correct_answer)
+      return answers
     }
   }
 }

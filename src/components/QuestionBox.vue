@@ -7,11 +7,12 @@
 
       <hr class="my-4">
 
-      <div class="mb-3" v-for="(answer, index) in shuffledAnswers" :key="index">
+      <div class="mb-3" v-for="(answer, index) in shuffledAnswers" :key="index"
+           @click="selectAnswer(index)" :class="[selectedIndex === index ? 'selected' : '']">
         <button class="btnx">{{ answer }}</button>
       </div>
 
-      <button @click="next" class="blue-btnx">Nexta</button>
+      <button @click="next" class="blue-btnx">Next</button>
     </b-jumbotron>
   </div>
 </template>
@@ -36,12 +37,22 @@ export default {
       type: Function
     }
   },
+  data() {
+    return {
+      selectedIndex: null
+    }
+  },
   computed: {
     shuffledAnswers() {
       let answers = [...this.currentQuestion.incorrect_answers]
       let randomIndex = Math.round(Math.random() * 3)
       answers.splice(randomIndex, 0, this.currentQuestion.correct_answer)
       return answers
+    }
+  },
+  methods: {
+    selectAnswer(index) {
+      this.selectedIndex = index
     }
   }
 }
@@ -70,5 +81,14 @@ export default {
 }
 .blue-btnx:hover {
   background-color: rgb(0,81,230);
+}
+.selected {
+  background-color: lightblue;
+}
+.correct {
+  background-color: lightgreen;
+}
+.incorrect {
+  background-color: red;
 }
 </style>

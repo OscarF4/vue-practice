@@ -12,7 +12,14 @@
         <button class="btnx">{{ answer }}</button>
       </div>
 
-      <button @click="next" class="blue-btnx">Next</button>
+      <b-button variant="primary" @click="submitAnswer"
+                :disabled="selectedIndex === null || answered"
+                class="mx-3">
+        Submit
+      </b-button>
+      <b-button variant="success" @click="next">
+        Next
+      </b-button>
     </b-jumbotron>
   </div>
 </template>
@@ -35,11 +42,15 @@ export default {
     },
     next: {
       type: Function
+    },
+    increment: {
+      type: Function
     }
   },
   data() {
     return {
-      selectedIndex: null
+      selectedIndex: null,
+      answered: false
     }
   },
   computed: {
@@ -53,6 +64,16 @@ export default {
   methods: {
     selectAnswer(index) {
       this.selectedIndex = index
+    },
+    submitAnswer() {
+      let isCorrect = false
+
+      if (this.shuffledAnswers[this.selectedIndex] === this.currentQuestion.correct_answer) {
+        isCorrect = true
+      }
+      this.answered = true
+
+      this.increment(isCorrect)
     }
   }
 }

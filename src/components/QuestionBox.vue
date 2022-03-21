@@ -8,16 +8,13 @@
       <hr class="my-4">
 
       <div class="mb-3" v-for="(answer, index) in shuffledAnswers" :key="index"
-           @click="selectAnswer(index)" :class="[selectedIndex === index ? 'selected' : '']">
+           @click="submitAnswer(index)"
+           :class="selectedAnswer && shuffledAnswers[index] === currentQuestion.correct_answer ? 'correct' :
+           selectedAnswer && shuffledAnswers[index] !== currentQuestion.correct_answer ? 'incorrect' : ''">
         <button class="btnx">{{ answer }}</button>
       </div>
 
-      <b-button variant="primary" @click="submitAnswer"
-                :disabled="selectedIndex === null || answered"
-                class="mx-3">
-        Submit
-      </b-button>
-      <b-button variant="success" @click="next">
+      <b-button block variant="success" @click="next">
         Next
       </b-button>
     </b-jumbotron>
@@ -49,8 +46,7 @@ export default {
   },
   data() {
     return {
-      selectedIndex: null,
-      answered: false
+      selectedAnswer: false
     }
   },
   computed: {
@@ -62,18 +58,22 @@ export default {
     }
   },
   methods: {
-    selectAnswer(index) {
-      this.selectedIndex = index
-    },
-    submitAnswer() {
-      let isCorrect = false
-
-      if (this.shuffledAnswers[this.selectedIndex] === this.currentQuestion.correct_answer) {
-        isCorrect = true
+    submitAnswer(index) {
+      console.log(index)
+      if (this.shuffledAnswers[index] === this.currentQuestion.correct_answer) {
+        this.increment(true)
+      } else {
+        this.increment(false)
       }
-      this.answered = true
 
-      this.increment(isCorrect)
+      // let isCorrect = false
+      //
+      // if (this.shuffledAnswers[this.selectedIndex] === this.currentQuestion.correct_answer) {
+      //   isCorrect = true
+      // }
+      // this.answered = true
+      //
+      // this.increment(isCorrect)
     }
   }
 }
@@ -107,7 +107,7 @@ export default {
   background-color: lightblue;
 }
 .correct {
-  background-color: lightgreen;
+  background-color: lawngreen;
 }
 .incorrect {
   background-color: red;

@@ -9,8 +9,8 @@
 
       <div class="mb-3" v-for="(answer, index) in shuffledAnswers" :key="index"
            @click="submitAnswer(index)"
-           :class="selectedAnswer && shuffledAnswers[index] === currentQuestion.correct_answer ? 'correct' :
-           selectedAnswer && shuffledAnswers[index] !== currentQuestion.correct_answer ? 'incorrect' : ''">
+           :class="{ correct: selectedAnswer && answer === currentQuestion.correct_answer,
+        incorrect: selectedAnswer && answer !== currentQuestion.correct_answer }">
         <button class="btnx">{{ answer }}</button>
       </div>
 
@@ -42,11 +42,16 @@ export default {
     },
     increment: {
       type: Function
+    },
+    selectedAnswer: {
+      type: Boolean
+    },
+    selectedState: {
+      type: Function
     }
   },
   data() {
     return {
-      selectedAnswer: false
     }
   },
   computed: {
@@ -59,7 +64,7 @@ export default {
   },
   methods: {
     submitAnswer(index) {
-      console.log(index)
+      this.selectedState()
       if (this.shuffledAnswers[index] === this.currentQuestion.correct_answer) {
         this.increment(true)
       } else {
@@ -89,8 +94,9 @@ export default {
   border-radius: 5px;
 }
 .btnx:hover {
-  background-color: #212529;
-  color: white;
+  background-color: inherit;
+  opacity: 0.6;
+  /*color: white;*/
 }
 .blue-btnx {
   width: 100%;
@@ -108,8 +114,10 @@ export default {
 }
 .correct {
   background-color: lawngreen;
+  transition: 1s;
 }
 .incorrect {
   background-color: red;
+  transition: 1s;
 }
 </style>

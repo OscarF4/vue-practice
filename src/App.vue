@@ -7,7 +7,9 @@
         <b-col sm="6" offset="3">
           <QuestionBox v-if="questions.length"
                        :currentQuestion="questions[index]" :next="next"
-                        :increment="increment" />
+                       :increment="increment"
+                       :selected-answer="selectedAnswer"
+                       :selected-state="selectedState"/>
         </b-col>
       </b-row>
   </b-container>
@@ -30,7 +32,8 @@ export default {
       numCorrect: 0,
       numTotal: 0,
       questions: [],
-      currentQuestion: {}
+      currentQuestion: {},
+      selectedAnswer: false
     }
   },
   methods: {
@@ -39,12 +42,16 @@ export default {
       this.index++
         this.numTotal++
       }
+      this.selectedAnswer = false
     },
     increment(isCorrect) {
       if (isCorrect) {
         this.numCorrect++
       }
       this.numTotal++
+    },
+    selectedState() {
+      this.selectedAnswer = true
     }
   },
   mounted() {
